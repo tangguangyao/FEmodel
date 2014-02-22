@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>双向数据绑定</title>
+</head>
+<body>
+<div onclick="err()">点击查看err</div>
+<div onclick="callback()">点击查看callback</div>
+<div onclick="async()">点击查看async</div>
+
+<script>
+function err(){
+  var value;
+  var A = function() {
+    setTimeout(function() {
+      value = 10;
+    }, 200);
+  }
+  var B = function() {
+    alert(value);
+  } 
+  A();
+  B();
+}
+
+
+/*
+*回调太多会很难看
+*/
+function callback(){
+	var value;
+	var A = function(callback) {
+	  setTimeout(function() {
+	    value = 10;
+	    callback();
+	  }, 200);
+	};
+	var B = function() {
+	  alert(value);
+	};
+
+	A(function() {
+	  B();
+	});
+}
+
+/*
+*异步函数控制
+*/
+function async(){
+	//http://www.html-js.com/article/A-day-to-learn-JavaScript-to-create-an-asynchronous-function-calls-with-7-lines-of-code-library
+	//文章中详细讲述了实现原理
+	var queue = function(funcs, scope) {
+	  (function next() {
+	        if(funcs.length > 0) {
+	            var f = funcs.shift();
+	            f.apply(scope, [next].concat(Array.prototype.slice.call(arguments, 0)));
+	        }
+	  })();
+	};
+	//我的简单理解为将要执行的函数放到funcs数组中，
+	//然后依次执行，执行完毕后执行回调函数开始执行下一个函数。
+	//所以每个加入funcs数组的函数都需要传入一个callback函数作为参数，每个函数执行就会callback通知执行下一个
+
+	var obj = {value: null};
+	queue([function(callback) {
+		      var self = this;
+		      setTimeout(function() {
+	          self.value = 10;
+	          callback(20);
+		      }, 200);
+	  		},
+			  function(callback, add) {
+		      console.log(this.value + add);
+		      callback();
+			  },
+			  function() {
+			      alert(obj.value);
+			  }], 
+			  obj); 
+}
+
+
+
+</script>
+</body>
+</html>
