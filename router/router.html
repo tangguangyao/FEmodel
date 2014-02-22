@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>路由控制</title>
+</head>
+<body>
+<ul>
+  <li><a href="#">Home</a></li>
+  <li><a href="#/page1">Page 1</a></li>
+  <li><a href="#/page2">Page 2</a></li>
+</ul>
+<div id="view">
+    <div id="home" style="display:none">home</div>
+    <div id="template1" style="display:none">template1</div>
+    <div id="template2" style="display:none">template2</div>
+</div>
+
+<script>
+//一个储存我们路径的哈希表   
+var routes = {};
+//路径注册函数
+//path是路径名
+//templateId显示的模板
+//执行的函数
+function route (path,templateId,controller){
+    routes[path] = {templateId: templateId, controller: controller};
+}
+
+//运行路径
+function routerRun(){
+    //目前的路径url（在哈希中去除"#"）
+    var url = location.hash.slice(1) || '/';
+    //通过url获取路径   
+    var route = routes[url];
+    //我们同时拥有一个视图和路径吗？   
+    if(route){
+    	for(i in routes){
+    		if(i!==url){
+                //隐藏不是对应路径的模板
+    			document.getElementById(routes[i].templateId).style.display="none";
+    		}else{
+                //显示路径对应模板
+                document.getElementById(routes[i].templateId).style.display="block";
+                //运行对应路径的函数
+                routes[i].controller();
+            }
+    	}
+    }else{
+    	//路径错误
+        console.log("路径错误");
+    }
+}
+
+//路径注册
+route('/','home',function(){
+    console.log(0);
+});
+route('/page1','template1',function(){
+    console.log(1);
+});
+route('/page2','template2',function(){
+    console.log(2);
+});
+
+
+//监听哈希变化   
+window.addEventListener('hashchange',routerRun);
+//监听页面载入   
+window.addEventListener('load',routerRun);
+</script>
+</body>
+</html>
