@@ -1,10 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>双向数据绑定</title>
+</head>
+<body>
+<!-- html绑定 -->
 <input type="text" data-bind-tang="name" />
+<div data-bind-guang="name"></div>
+<br/>
+<br/>
 
-<div data-bind-guang="name">
-</div>
+<!-- 改变模板内容 -->
+<div id="get">getInput</div>
+<div id="change">changeYao</div>
 
 <script src="../jquery-1.10.2.min.js"></script>
 <script>
+/*
+源码来自：http://www.lucaongaro.eu/blog/2012/12/02/easy-two-way-data-binding-in-javascript/
+有部分改写优化
+*/
+
 function DataBinder( object_id ) {
   // Use a jQuery object as simple PubSub
   var pubSub = jQuery({});
@@ -28,16 +44,17 @@ function DataBinder( object_id ) {
   // PubSub propagates changes to all bound elements, setting value of
   // input tags or HTML content of other tags
   //PubSub将变化传播到所有的绑定元素，设置input标签的值或者其他标签的HTML内容
-  pubSub.on( message, function( evt, prop_name, new_val ) {
-    jQuery( "[data-" + data_attr + "=" + prop_name + "]" ).each( function() {
-      var $bound = jQuery( this );
-
-      if ( $bound.is("input, textarea, select") ) {
-        $bound.val( new_val );
-      } else {
-        $bound.html( new_val );
-      }
-    });
+  pubSub.on( message, function( evt, prop_name, new_val , initiator) {
+    if(initiator){
+      jQuery( "[data-" + data_attr + "=" + prop_name + "]" ).each( function() {
+        var $bound = jQuery( this );
+        if ( $bound.is("input, textarea, select") ) {
+          $bound.val( new_val );
+        } else {
+          $bound.html( new_val );
+        }
+      });
+    } 
   });
 
   return pubSub;
@@ -46,14 +63,15 @@ function DataBinder( object_id ) {
 
 function User( uid ) {
   var binder = new DataBinder( uid ),
-
       user = {
         attributes: {},
-
         // The attribute setter publish changes using the DataBinder PubSub
-        set: function( attr_name, val ) {
+        set: function( attr_name, val ,fromHtml) {
           this.attributes[ attr_name ] = val;
-          binder.trigger( uid + ":change", [ attr_name, val, this ] );
+          if(!fromHtml){
+            //这里加一个判断，如果set设置消息是来自html的，就不用执行下面发布消息
+            binder.trigger( uid + ":change", [ attr_name, val, this ] );
+          }
         },
 
         get: function( attr_name ) {
@@ -62,22 +80,31 @@ function User( uid ) {
 
         _binder: binder
       };
-
   // Subscribe to the PubSub
   binder.on( uid + ":change", function( evt, attr_name, new_val, initiator ) {
+    //如果是通过user设置的对象，就不需要执行这个消息
     if ( initiator !== user ) {
-      user.set( attr_name, new_val );
+      //如果initiator为underfind，则是html中改变发出的消息
+      user.set( attr_name, new_val ,true);//这里增加一个参数，表示这个set是来自html而设置的
     }
   });
 
   return user;
 }
 
-var user = new User("tang");
-user.set("name","hello");
+var tang = new User("tang");
+tang.set("name","hello");
 
-var user1 = new User("guang");
-user1.set("name","yao");
+var guang = new User("guang");
+guang.set("name","yao");
+
+$("#get").click(function(){
+  alert(tang.get("name"));
+})
+$("#change").click(function(){
+  guang.set("name","donotchangeme");
+})
+
 </script>
-
-
+</body>
+</html>
