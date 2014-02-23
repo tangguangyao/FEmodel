@@ -26,7 +26,7 @@
 - 教程：[前端框架中的实用技术-路由控制](http://hi.baidu.com/tang_guangyao/item/74e2ec041fbe28a13d42e23b)
 - 查看效果：点击不同的链接，分别显示对应的模板
 
-**模板**
-- 代码：message
-- 教程：[前端框架中的实用技术-路由控制](http://hi.baidu.com/tang_guangyao/item/74e2ec041fbe28a13d42e23b)
-- 查看效果：点击不同的链接，分别显示对应的模板
+**模板引擎**
+- 代码：Template
+- 教程：[前端框架中的实用技术-模板引擎](http://hi.baidu.com/tang_guangyao/item/863e6a1e4b152bbe99ce3391)
+- 查看效果：页面有一个简易模板，一个可执行js的模板
