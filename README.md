@@ -30,3 +30,8 @@
 - 代码：Template
 - 教程：[前端框架中的实用技术-模板引擎](http://hi.baidu.com/tang_guangyao/item/863e6a1e4b152bbe99ce3391)
 - 查看效果：页面有一个简易模板，一个可执行js的模板
+
+**模块开发**
+- 代码：require
+- 教程：
+- 查看效果：
