@@ -1,3 +1,8 @@
+/**
+ * @file amd简易实现
+ * @see http://www.html-js.com/article/1849
+ */
+
 ;(function(document) {
     var scriptEl = document.getElementsByTagName('script')[0];
 

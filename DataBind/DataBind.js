@@ -1,25 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>双向数据绑定</title>
-</head>
-<body>
-<!-- html绑定 -->
-<input type="text" data-bind-tang="name" />
-<div data-bind-guang="name"></div>
-<br/>
-<br/>
-
-<!-- 改变模板内容 -->
-<div id="get">getInput</div>
-<div id="change">changeYao</div>
-
-<script src="../jquery-1.10.2.min.js"></script>
-<script>
-/*
- * @see http://www.lucaongaro.eu/blog/2012/12/02/easy-two-way-data-binding-in-javascript/
- * 有部分改写优化
-*/
+/**
+ * @file 双向数据绑定
+ */
 
 function DataBinder(object_id) {
     // Use a jQuery object as simple PubSub
@@ -56,14 +37,14 @@ function DataBinder(object_id) {
                     $bound.html(new_val);
                 }
             });
-        } 
+        }
     });
 
     return pubSub;
 }
 
 
-function User(uid) {
+function Bind(uid) {
     var binder = new DataBinder( uid ),
         user = {
             attributes: {},
@@ -95,20 +76,3 @@ function User(uid) {
 
     return user;
 }
-
-var tang = new User("tang");
-tang.set("name","hello");
-
-var guang = new User("guang");
-guang.set("name","yao");
-
-$("#get").click(function(){
-  alert(tang.get("name"));
-})
-$("#change").click(function(){
-  guang.set("name","donotchangeme");
-})
-
-</script>
-</body>
-</html>

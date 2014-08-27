@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>异步编程</title>
+</head>
+<body>
+<script src="promise.js"></script>
+
+<script>
+var def = Promise.deferred()
+// setTimeout(function() {
+    def.resolve(222)
+// }, 1000)
+
+def.promise.then(function(x) {
+    console.log(x)
+})
+</script>
+</body>
+</html>
