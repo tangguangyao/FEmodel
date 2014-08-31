@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mvvm</title>
+</head>
+<body>
+<div id="demo1" class="demo">
+    Hello <span class="{{css}}" data-text="xx">{{name}}</span>!
+    <br>
+    <p>now is {{time}}</p>
+</div>
+
+<div id="demo2" class="demo">
+    <label>
+        <span>name:</span>
+        <input name="name">
+    </label>
+    <br>
+    <label>
+        <span>password:</span>
+        <input name="password">
+    </label>
+    <pre>
+    {
+        name: {{name}},
+        passowrd: {{password}}
+    }
+    </pre>
+</div>
+
+<script src="mvvm.js"></script>
+<script>
+// demo
+var $ = document.querySelector.bind(document);
+var demo1 = mvvm('#demo1', {
+    model: {
+        name: 'Monkey',
+        time: Date(),
+        css: 'green'
+    }
+})
+
+setInterval(function() {
+    demo1.model.time = Date()
+}, 1000);
+
+var a = mvvm('#demo2', {
+    type: 'form', // 同步
+    model: {
+        name: '',
+        password: ''
+    }
+});
+
+</script>
+</body>
+</html>

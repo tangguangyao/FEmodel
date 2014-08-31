@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>双向数据绑定</title>
+</head>
+<body>
+<!-- html绑定 -->
+<input type="text" data-bind-tang="name" />
+<div data-bind-guang="name"></div>
+<br/>
+<br/>
+
+<!-- 改变模板内容 -->
+<div id="get">getInput</div>
+<div id="change">changeYao</div>
+
+<script src="../jquery-1.10.2.min.js"></script>
+<script src="DataBind.js"></script>
+<script>
+var tang = new Bind("tang");
+tang.set("name","hello");
+
+var guang = new Bind("guang");
+guang.set("name","yao");
+
+$("#get").click(function(){
+  alert(tang.get("name"));
+})
+$("#change").click(function(){
+  guang.set("name","donotchangeme");
+})
+
+</script>
+</body>
+</html>
