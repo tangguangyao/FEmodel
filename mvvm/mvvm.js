@@ -106,7 +106,6 @@
                 me.render(this);
             });
             each(dom.childNodes, function() {
-                // console.log(this.textContent)
                 if (this.nodeType === 1) {
                     return me.renderDOM(this);
                 }
@@ -126,10 +125,10 @@
                 return;
             }
             var ret = '';
-            for (var i = 0; i < arr.length; i++) {
-                var two = arr[i].split(end);
+            for (var i = 0, item; item = arr[i++];) {
+                var two = item.split(end);
                 if (two.length === 1) {
-                    ret += arr[i];
+                    ret += item;
                 } else {
                     ret += this.pureModel[two[0]] + two[1];
                     this.model2sync[two[0]].push({
@@ -148,10 +147,10 @@
         renderStr: function (str) {
             var ret = '';
             var arr = str.split(start); // sure have length
-            for (var i = 0; i < arr.length; i++) {
-                var two = arr[i].split(end);
+            for (var i = 0, item; item = arr[i++];) {
+                var two = item.split(end);
                 if (two.length === 1){
-                    ret += arr[i];
+                    ret += item;
                 } else {
                     ret += this.pureModel[two[0]] + two[1];
                 }
