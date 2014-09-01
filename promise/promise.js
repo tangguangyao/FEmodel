@@ -28,16 +28,16 @@
         function next(i, val) {
 
             // 使用上不好，但是保证(resolve, reject)的出栈动作就肯定比进栈晚了
-            setTimeout(function() {
+            // setTimeout(function() {
 
                 // 用while来用光全部的resolve
                 while (queue.length) {
-
+                    var chain;
                     // 移出一个resolve和reject对, 也就是[resolve, reject]
                     var arr = queue.shift();
                     if (typeof arr[i] === 'function') {
                         try {
-                            var chain = arr[i](val);
+                            chain = arr[i](val);
                         } catch (e) {
                             return reject(e);
                         }
@@ -54,7 +54,7 @@
                         }
                     }
                 }
-            });
+            // });
         }
 
         /**
