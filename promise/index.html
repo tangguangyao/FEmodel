@@ -7,14 +7,20 @@
 <script src="promise.js"></script>
 
 <script>
-var def = Promise.deferred()
-// setTimeout(function() {
-    def.resolve(222)
-// }, 1000)
+function getSomeJson() {
+    return new Promise(function(resolve, reject) {
+        var badJson = "uh oh, this is not JSON at all!";
+        resolve(badJson);
+    });
+}
 
-def.promise.then(function(x) {
-    console.log(x)
-})
+getSomeJson().then(function(json) {
+  var obj = JSON.parse(json);
+  console.log(obj);
+}, function(error) {
+  console.log('uh oh', error);
+});
+
 </script>
 </body>
 </html>

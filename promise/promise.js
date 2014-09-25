@@ -28,7 +28,7 @@
         function next(i, val) {
 
             // 使用上不好，但是保证(resolve, reject)的出栈动作就肯定比进栈晚了
-            // setTimeout(function() {
+            setTimeout(function() {
 
                 // 用while来用光全部的resolve
                 while (queue.length) {
@@ -54,7 +54,7 @@
                         }
                     }
                 }
-            // });
+            });
         }
 
         /**
@@ -95,9 +95,9 @@
      * 成功执行
      * @param {Function} resolve 成功
      */
-    Promise.resolved = Promise.cast = function(x) {
+    Promise.resolved = Promise.cast = function(reason) {
         return new Promise(function(resolve) {
-            resolve(x);
+            resolve(reason);
         });
     };
 
