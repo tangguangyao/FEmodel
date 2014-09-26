@@ -5,20 +5,37 @@
 </head>
 <body>
 <script src="promise.js"></script>
-
 <script>
+
+
 function getSomeJson() {
     return new Promise(function(resolve, reject) {
-        var badJson = "uh oh, this is not JSON at all!";
-        resolve(badJson);
+        setTimeout(function () {
+            var badJson = "<div>uh oh, this is not JSON at all!</div>";
+            resolve(badJson);
+        }, 2000);
     });
 }
 
+// 会吞错误
+// getSomeJson().then(function(json) {
+//     var obj = JSON.parse(json);
+//     console.log(obj);
+// }, function(error) {
+//     console.log('uh oh', error);
+// });
+
 getSomeJson().then(function(json) {
-  var obj = JSON.parse(json);
-  console.log(obj);
+    var obj = JSON.parse(json);
+    console.log(obj);
+}).then(function () {
+    console.log('is ok');
 }, function(error) {
-  console.log('uh oh', error);
+    console.log("an error occured: ", error);
+}).then(function () {
+    console.log('ok');
+},function () {
+    console.log('error');
 });
 
 </script>
